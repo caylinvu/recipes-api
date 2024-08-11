@@ -1,5 +1,6 @@
 import createError, { HttpError } from 'http-errors';
 import express, { Express, Request, Response, NextFunction } from 'express';
+import mongoose from 'mongoose';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
@@ -15,6 +16,17 @@ import indexRouter from './routes/index';
 import usersRouter from './routes/users';
 
 const app: Express = express();
+
+// set up mongoose connection
+mongoose.set('strictQuery', false);
+const mongoDB = process.env.MONGODB_URI || process.env.dev_db_url;
+
+main().catch((err: HttpError) => console.log(err));
+async function main() {
+  if (mongoDB) {
+    await mongoose.connect(mongoDB);
+  }
+}
 
 // view engine setup
 app.set('views', path.join(__dirname, '../', 'views'));
