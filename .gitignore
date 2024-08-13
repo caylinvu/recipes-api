@@ -134,5 +134,4 @@ dist
 .prettierignore
 eslint.config.mjs
 settings.json
-populatedb.ts
 .vscode
