@@ -22,7 +22,7 @@ const app: Express = express();
 mongoose.set('strictQuery', false);
 const mongoDB = process.env.MONGODB_URI || process.env.dev_db_url;
 
-main().catch((err: HttpError) => console.log(err));
+main().catch((err) => console.log(err));
 async function main() {
   if (mongoDB) {
     await mongoose.connect(mongoDB);
