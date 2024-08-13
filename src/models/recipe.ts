@@ -2,7 +2,7 @@ import { Schema, model } from 'mongoose';
 
 interface Ingredients {
   name: string;
-  amount: number;
+  amount?: number;
   unit?: string;
   prep?: string;
 }
@@ -26,7 +26,7 @@ const RecipeSchema = new Schema<Recipe>({
     type: [
       new Schema<Ingredients>({
         name: { type: String, required: true },
-        amount: { type: Number, required: true },
+        amount: { type: Number },
         unit: { type: String },
         prep: { type: String },
       }),
