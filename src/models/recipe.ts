@@ -1,4 +1,4 @@
-import { Schema, Types, model, Model } from 'mongoose';
+import { Schema, model } from 'mongoose';
 
 interface Ingredients {
   name: string;
@@ -19,13 +19,7 @@ interface Recipe {
   image?: string;
 }
 
-type THydratedRecipeDocument = {
-  ingredients?: Types.DocumentArray<Ingredients>;
-};
-
-type RecipeModelType = Model<Recipe, {}, {}, {}, THydratedRecipeDocument>;
-
-const RecipeSchema = new Schema<Recipe, RecipeModelType>({
+const RecipeSchema = new Schema<Recipe>({
   name: { type: String, required: true },
   description: { type: String },
   ingredients: {
@@ -38,6 +32,7 @@ const RecipeSchema = new Schema<Recipe, RecipeModelType>({
       }),
     ],
     required: true,
+    _id: false,
   },
   steps: [{ type: String, required: true }],
   servings: { type: Number },
@@ -47,4 +42,4 @@ const RecipeSchema = new Schema<Recipe, RecipeModelType>({
   image: { type: String },
 });
 
-export default model<Recipe, RecipeModelType>('Recipe', RecipeSchema);
+export default model<Recipe>('Recipe', RecipeSchema);
