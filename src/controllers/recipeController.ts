@@ -29,6 +29,13 @@ export const deleteRecipe = asyncHandler(
 export const getRecipe = asyncHandler(
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const recipe = await Recipe.findById(req.params.recipeId).exec();
+
+    // if (recipe === null) {
+    //   const err = new Error("Recipe not found");
+    //   res.status(404);
+    //   return next(err);
+    // }
+
     res.send(recipe);
   },
 );

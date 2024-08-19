@@ -84,11 +84,11 @@ async function recipeCreate(
     name: name,
     description: description,
     ingredients: ingredients,
-    steps: directions,
+    directions: directions,
     servings: servings,
     notes: notes.length > 0 ? notes : null,
     source: source,
-    category: tags,
+    tags: tags,
     image: image,
   };
 
