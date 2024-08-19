@@ -1,6 +1,7 @@
 import Recipe from '../models/recipe';
 import { Request, Response, NextFunction } from 'express';
 import asyncHandler from 'express-async-handler';
+import mongoose from 'mongoose';
 import { body, validationResult, check } from 'express-validator';
 import fs from 'fs';
 
@@ -28,13 +29,19 @@ export const deleteRecipe = asyncHandler(
 // Get data for an individual recipe
 export const getRecipe = asyncHandler(
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    if (!mongoose.isValidObjectId(req.params.conversationId)) {
+      const err = new Error('Recipe not found');
+      res.status(404);
+      return next(err);
+    }
+
     const recipe = await Recipe.findById(req.params.recipeId).exec();
 
-    // if (recipe === null) {
-    //   const err = new Error("Recipe not found");
-    //   res.status(404);
-    //   return next(err);
-    // }
+    if (recipe === null) {
+      const err = new Error('Recipe not found');
+      res.status(404);
+      return next(err);
+    }
 
     res.send(recipe);
   },
