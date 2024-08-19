@@ -5,12 +5,41 @@ import mongoose from 'mongoose';
 import { body, validationResult, check } from 'express-validator';
 import fs from 'fs';
 
+// TEST THIS FUNCTION/ROUTE IN POSTMAN!!!!!!!!!
 // Create a new recipe
-export const createRecipe = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    res.send('Controller function to create a recipe');
-  },
-);
+export const createRecipe = [
+  body('name', 'Recipe name is required').trim().isLength({ min: 1 }),
+  body('description').optional({ nullable: true }).trim(),
+  body('ingredients', 'Ingredients are required').isArray({ min: 1 }),
+  body('directions', 'Directions are required').isArray({ min: 1 }),
+  body('servings', 'Servings must be an integer').optional({ nullable: true }).trim().isInt(),
+  body('notes', 'Notes must be an array').optional({ nullable: true }).isArray(),
+  body('source').optional({ nullable: true }).trim(),
+  body('tags', 'Must select at least one tag').isArray({ min: 1 }),
+  asyncHandler(async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.status(400).json(errors.array());
+      return;
+    }
+
+    const recipe = new Recipe({
+      name: req.body.name,
+      description: req.body.description,
+      ingredients: req.body.ingredients,
+      directions: req.body.directions,
+      servings: req.body.servings,
+      notes: req.body.notes,
+      source: req.body.source,
+      tags: req.body.tags,
+      image: req.body.image,
+    });
+
+    await recipe.save();
+    res.send(recipe);
+  }),
+];
 
 // Update a recipe
 export const updateRecipe = asyncHandler(
