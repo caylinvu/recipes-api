@@ -73,22 +73,22 @@ async function recipeCreate(
   name: string,
   description: string,
   ingredients: object[],
-  steps: string[],
+  directions: string[],
   servings: number,
   notes: string[],
   source: string,
-  category: string[],
+  tags: string[],
   image: string,
 ) {
   const recipeDetail = {
     name: name,
     description: description,
     ingredients: ingredients,
-    steps: steps,
+    steps: directions,
     servings: servings,
     notes: notes.length > 0 ? notes : null,
     source: source,
-    category: category,
+    category: tags,
     image: image,
   };
 
