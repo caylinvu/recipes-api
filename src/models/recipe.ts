@@ -1,31 +1,13 @@
 import { Schema, model } from 'mongoose';
+import { IRecipe, IIngredient } from '../ts/interfaces';
 
-interface Ingredients {
-  name: string;
-  amount?: number;
-  unit?: string;
-  prep?: string;
-}
-
-interface Recipe {
-  name: string;
-  description?: string;
-  ingredients: Ingredients[];
-  directions: string[];
-  servings?: number;
-  notes?: string[];
-  source?: string;
-  tags: string[];
-  image?: string;
-}
-
-const RecipeSchema = new Schema<Recipe>(
+const RecipeSchema = new Schema<IRecipe>(
   {
     name: { type: String, required: true },
     description: { type: String },
     ingredients: {
       type: [
-        new Schema<Ingredients>({
+        new Schema<IIngredient>({
           name: { type: String, required: true },
           amount: { type: Number },
           unit: { type: String },
@@ -45,4 +27,4 @@ const RecipeSchema = new Schema<Recipe>(
   { timestamps: true },
 );
 
-export default model<Recipe>('Recipe', RecipeSchema);
+export default model<IRecipe>('Recipe', RecipeSchema);
