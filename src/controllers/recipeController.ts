@@ -1,6 +1,6 @@
 import Recipe from '../models/recipe';
 import { IRecipe, IIngredient, ReqBody } from '../ts/interfaces';
-import { Request, Response, NextFunction, RequestHandler } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import asyncHandler from 'express-async-handler';
 import mongoose from 'mongoose';
 import { body, validationResult, check } from 'express-validator';
@@ -76,10 +76,11 @@ export const getRecipe = asyncHandler(
   },
 );
 
-// Get all recipe data
+// Get all recipe data (currently sorting chronologically)
 export const getRecipes = asyncHandler(
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const allRecipes: IRecipe[] = await Recipe.find().sort({ name: 1 }).exec();
+    // const allRecipes: IRecipe[] = await Recipe.find().sort({ name: 1 }).exec();
+    const allRecipes: IRecipe[] = await Recipe.find().sort({ createdAt: 1 }).exec();
     res.send(allRecipes);
   },
 );
