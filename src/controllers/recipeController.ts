@@ -1,11 +1,11 @@
 import Recipe from '../models/recipe';
-import { Request, Response, NextFunction } from 'express';
+import { IRecipe, IIngredient, ReqBody } from '../ts/interfaces';
+import { Request, Response, NextFunction, RequestHandler } from 'express';
 import asyncHandler from 'express-async-handler';
 import mongoose from 'mongoose';
 import { body, validationResult, check } from 'express-validator';
 import fs from 'fs';
 
-// TEST THIS FUNCTION/ROUTE IN POSTMAN!!!!!!!!!
 // Create a new recipe
 export const createRecipe = [
   body('name', 'Recipe name is required').trim().isLength({ min: 1 }),
@@ -16,7 +16,7 @@ export const createRecipe = [
   body('notes', 'Notes must be an array').optional({ nullable: true }).isArray(),
   body('source').optional({ nullable: true }).trim(),
   body('tags', 'Must select at least one tag').isArray({ min: 1 }),
-  asyncHandler(async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  asyncHandler(async (req: ReqBody<IRecipe>, res: Response, next: NextFunction): Promise<void> => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -24,7 +24,7 @@ export const createRecipe = [
       return;
     }
 
-    const recipe = new Recipe({
+    const recipe = new Recipe<IRecipe>({
       name: req.body.name,
       description: req.body.description,
       ingredients: req.body.ingredients,
@@ -58,13 +58,13 @@ export const deleteRecipe = asyncHandler(
 // Get data for an individual recipe
 export const getRecipe = asyncHandler(
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    if (!mongoose.isValidObjectId(req.params.conversationId)) {
+    if (!mongoose.isValidObjectId(req.params.recipeId)) {
       const err = new Error('Recipe not found');
       res.status(404);
       return next(err);
     }
 
-    const recipe = await Recipe.findById(req.params.recipeId).exec();
+    const recipe: IRecipe | null = await Recipe.findById(req.params.recipeId).exec();
 
     if (recipe === null) {
       const err = new Error('Recipe not found');
@@ -79,7 +79,7 @@ export const getRecipe = asyncHandler(
 // Get all recipe data
 export const getRecipes = asyncHandler(
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const allRecipes = await Recipe.find().sort({ name: 1 }).exec();
+    const allRecipes: IRecipe[] = await Recipe.find().sort({ name: 1 }).exec();
     res.send(allRecipes);
   },
 );
