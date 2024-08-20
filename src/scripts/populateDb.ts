@@ -7,9 +7,10 @@ import bcrypt from 'bcryptjs';
 
 import User from '../models/user';
 import Recipe from '../models/recipe';
+import { IRecipe, IIngredient, IUser } from '../ts/interfaces';
 
-const users: object[] = [];
-const recipes: object[] = [];
+const users: IUser[] = [];
+const recipes: IRecipe[] = [];
 
 // Get arguments passed on command line
 const userArgs = process.argv.slice(2);
@@ -38,13 +39,6 @@ async function userCreate(
   email: string,
   password: string,
 ) {
-  const userDetail = {
-    firstName: firstName,
-    lastName: lastName,
-    email: email,
-  };
-  const user = new User(userDetail);
-
   const hashedPassword: string = await new Promise((resolve, reject) => {
     bcrypt.hash(password, 10, (err, hashedPassword) => {
       if (err) {
@@ -55,7 +49,14 @@ async function userCreate(
     });
   });
 
-  user.password = hashedPassword;
+  const userDetail: IUser = {
+    firstName: firstName,
+    lastName: lastName,
+    email: email,
+    password: hashedPassword,
+  };
+
+  const user = new User(userDetail);
   await user.save();
   users[index] = user;
   console.log(`Added user: ${firstName} ${lastName}`);
@@ -72,7 +73,7 @@ async function recipeCreate(
   index: number,
   name: string,
   description: string,
-  ingredients: object[],
+  ingredients: IIngredient[],
   directions: string[],
   servings: number,
   notes: string[],
@@ -80,13 +81,13 @@ async function recipeCreate(
   tags: string[],
   image: string,
 ) {
-  const recipeDetail = {
+  const recipeDetail: IRecipe = {
     name: name,
     description: description,
     ingredients: ingredients,
     directions: directions,
     servings: servings,
-    notes: notes.length > 0 ? notes : null,
+    notes: notes,
     source: source,
     tags: tags,
     image: image,
@@ -124,33 +125,33 @@ async function createRecipes() {
       '',
     ),
     recipeCreate(
-      0,
+      1,
       'Smoked Salmon Bagel',
       '',
       [
         {
           name: 'bagel',
-          amount: '1.5',
+          amount: 1.5,
         },
         {
           name: 'cream cheese',
-          amount: '2',
+          amount: 2,
           unit: 'tbsp',
         },
         {
           name: 'smoked salmon',
-          amount: '2',
+          amount: 2,
           unit: 'oz',
           prep: 'sliced',
         },
         {
           name: 'lemon',
-          amount: '1',
+          amount: 1,
           unit: 'slice',
         },
         {
           name: 'dill',
-          amount: '1',
+          amount: 1,
           unit: 'tsp',
           prep: 'chopped',
         },
