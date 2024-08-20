@@ -24,6 +24,8 @@ export interface IRecipe {
   source?: string;
   tags: string[];
   image?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface ReqBody<Type> extends Request {
