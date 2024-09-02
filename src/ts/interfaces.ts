@@ -14,6 +14,8 @@ export interface IIngredient {
   prep?: string;
 }
 
+type Tag = 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Appetizer' | 'Dessert' | 'Drink';
+
 export interface IRecipe {
   name: string;
   description?: string;
@@ -22,7 +24,7 @@ export interface IRecipe {
   servings?: number;
   notes?: string[];
   source?: string;
-  tags: string[];
+  tags: Tag[];
   image?: string;
   createdAt?: Date;
   updatedAt?: Date;
