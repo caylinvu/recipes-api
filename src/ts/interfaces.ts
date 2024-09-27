@@ -7,19 +7,12 @@ export interface IUser {
   password: string;
 }
 
-export interface IIngredient {
-  name: string;
-  amount?: number;
-  unit?: string;
-  prep?: string;
-}
-
-type Tag = 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Appetizer' | 'Dessert' | 'Drink';
+export type Tag = 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Appetizer' | 'Dessert' | 'Drink';
 
 export interface IRecipe {
   name: string;
   description?: string;
-  ingredients: IIngredient[];
+  ingredients: string[];
   directions: string[];
   servings?: number;
   notes?: string[];

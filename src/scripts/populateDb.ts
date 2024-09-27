@@ -7,7 +7,7 @@ import bcrypt from 'bcryptjs';
 
 import User from '../models/user';
 import Recipe from '../models/recipe';
-import { IRecipe, IIngredient, IUser } from '../ts/interfaces';
+import { IRecipe, IUser, Tag } from '../ts/interfaces';
 
 const users: IUser[] = [];
 const recipes: IRecipe[] = [];
@@ -73,12 +73,12 @@ async function recipeCreate(
   index: number,
   name: string,
   description: string,
-  ingredients: IIngredient[],
+  ingredients: string[],
   directions: string[],
   servings: number,
   notes: string[],
   source: string,
-  tags: string[],
+  tags: Tag[],
   image: string,
 ) {
   const recipeDetail: IRecipe = {
@@ -107,16 +107,7 @@ async function createRecipes() {
       0,
       'Hot Dog',
       'A damn good time on a bun',
-      [
-        {
-          name: 'bun',
-          amount: 1,
-        },
-        {
-          name: 'weiner',
-          amount: 1,
-        },
-      ],
+      ['1 bun', '1 weiner'],
       ['Get bun out of packaging', 'Get weiner out of packaging', 'Put weiner in bun'],
       1,
       ['Top with ketchup for a good time'],
@@ -129,38 +120,13 @@ async function createRecipes() {
       'Smoked Salmon Bagel',
       '',
       [
-        {
-          name: 'bagel',
-          amount: 1.5,
-        },
-        {
-          name: 'cream cheese',
-          amount: 2,
-          unit: 'tbsp',
-        },
-        {
-          name: 'smoked salmon',
-          amount: 2,
-          unit: 'oz',
-          prep: 'sliced',
-        },
-        {
-          name: 'lemon',
-          amount: 1,
-          unit: 'slice',
-        },
-        {
-          name: 'dill',
-          amount: 1,
-          unit: 'tsp',
-          prep: 'chopped',
-        },
-        {
-          name: 'everything bagel seasoning',
-        },
-        {
-          name: 'pepper',
-        },
+        'half a bagel',
+        '2 tbsp cream cheese',
+        '2 oz smoked salmon',
+        'lemon slice',
+        '1 tsp dill, chopped',
+        'everything bagel seasoning',
+        'pepper',
       ],
       [
         'Spread cream cheese onto bagel half and top with salmon',

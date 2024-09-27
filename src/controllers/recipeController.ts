@@ -1,5 +1,5 @@
 import Recipe from '../models/recipe';
-import { IRecipe, IIngredient, ReqBody } from '../ts/interfaces';
+import { IRecipe, ReqBody } from '../ts/interfaces';
 import { Request, Response, NextFunction } from 'express';
 import asyncHandler from 'express-async-handler';
 import mongoose from 'mongoose';
