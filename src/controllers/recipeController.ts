@@ -51,7 +51,16 @@ export const updateRecipe = asyncHandler(
 // Delete a recipe
 export const deleteRecipe = asyncHandler(
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    res.send('Controller function to delete a recipe');
+    const recipe: IRecipe | null = await Recipe.findById(req.params.recipeId).exec();
+
+    if (recipe) {
+      await Recipe.findByIdAndDelete(req.params.recipeId);
+      res.send(recipe);
+    } else {
+      const err = new Error('Invalid "recipeId" provided in path');
+      res.status(404);
+      return next(err);
+    }
   },
 );
 
