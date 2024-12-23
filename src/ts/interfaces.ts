@@ -9,6 +9,16 @@ export interface IUser {
 
 export type Tag = 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Appetizer' | 'Dessert' | 'Drink';
 
+export enum TagTitles {
+  Breakfast = 'Breakfast',
+  Lunch = 'Lunch',
+  Dinner = 'Dinner',
+  Snack = 'Snacks',
+  Appetizer = 'Appetizers',
+  Dessert = 'Desserts',
+  Drink = 'Drinks',
+}
+
 export interface IRecipe {
   name: string;
   description?: string;
