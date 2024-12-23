@@ -21,7 +21,10 @@ router.delete('/recipe/:recipeId/delete', recipeController.deleteRecipe);
 // GET - retrieve an individual recipe
 router.get('/recipe/:recipeId', recipeController.getRecipe);
 
-// GET - retrieve all recipes
+// GET - retrieve all recipes (sorted alphabetically by default)
 router.get('/recipes', recipeController.getRecipes);
+
+// GET - retrieve all recipes (sorted chronologically)
+router.get('/recipesByTime', recipeController.getRecipesByTime);
 
 export default router;

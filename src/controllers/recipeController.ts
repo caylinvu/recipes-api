@@ -120,11 +120,18 @@ export const getRecipe = asyncHandler(
   },
 );
 
-// Get all recipe data (currently sorting chronologically)
+// Get all recipe data (alphabetically by default)
 export const getRecipes = asyncHandler(
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    // const allRecipes: IRecipe[] = await Recipe.find().sort({ name: 1 }).exec();
-    const allRecipes: IRecipe[] = await Recipe.find().sort({ createdAt: 1 }).exec();
+    const allRecipes: IRecipe[] = await Recipe.find().sort({ name: 1 }).exec();
+    res.send(allRecipes);
+  },
+);
+
+// Get all recipe data (chronologically)
+export const getRecipesByTime = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const allRecipes: IRecipe[] = await Recipe.find().sort({ createdAt: -1 }).exec();
     res.send(allRecipes);
   },
 );
